@@ -8,6 +8,7 @@ import { EmotionalWordsSection } from "@/components/EmotionalWordsSection";
 import { ClaimsSection } from "@/components/ClaimsSection";
 import { QuestionsSection } from "@/components/QuestionsSection";
 import { CredibilitySection } from "@/components/CredibilitySection";
+import { ToneMeter } from "@/components/ToneMeter";
 
 export default function AnalyzePage() {
   const [articleText, setArticleText] = useState("");
@@ -48,6 +49,7 @@ export default function AnalyzePage() {
           <h1 className="text-3xl font-semibold">Analysis Complete</h1>
           <div className="mt-8 flex flex-col gap-6">
             <SummarySection summary={result.summary} />
+            <ToneMeter score={result.toneScore} explanation={result.toneExplanation} />
             <EmotionalWordsSection words={result.emotionalWords} />
             <ClaimsSection claims={result.claims} />
             <QuestionsSection questions={result.questions} />
