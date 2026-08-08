@@ -1,12 +1,16 @@
 "use client";
 
+import { SummarySection } from "@/components/SummarySection";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import type { AnalysisResult } from "@/types/analysis";
+import { EmotionalWordsSection } from "@/components/EmotionalWordsSection";
 
 export default function AnalyzePage() {
   const [articleText, setArticleText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
 
   async function handleAnalyze() {
     setError(null);
@@ -25,14 +29,27 @@ export default function AnalyzePage() {
         throw new Error(data.error || "Something went wrong.");
       }
 
-      console.log("Analysis result:", data);
-      // We'll handle navigating to a results page in the next step
+      setResult(data as AnalysisResult);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Unknown error occurred.";
       setError(message);
     } finally {
       setIsLoading(false);
     }
+  }
+
+  if (result) {
+    return (
+      <main className="flex flex-1 flex-col items-center gap-6 bg-background px-6 py-16 text-foreground">
+        <div className="w-full max-w-2xl">
+          <h1 className="text-3xl font-semibold">Analysis Complete</h1>
+          <div className="mt-8 flex flex-col gap-6">
+            <SummarySection summary={result.summary} />
+            <EmotionalWordsSection words={result.emotionalWords} />
+          </div>
+        </div>
+      </main>
+    );
   }
 
   return (
