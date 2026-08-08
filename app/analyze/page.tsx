@@ -7,6 +7,7 @@ import type { AnalysisResult } from "@/types/analysis";
 import { EmotionalWordsSection } from "@/components/EmotionalWordsSection";
 import { ClaimsSection } from "@/components/ClaimsSection";
 import { QuestionsSection } from "@/components/QuestionsSection";
+import { CredibilitySection } from "@/components/CredibilitySection";
 
 export default function AnalyzePage() {
   const [articleText, setArticleText] = useState("");
@@ -50,6 +51,7 @@ export default function AnalyzePage() {
             <EmotionalWordsSection words={result.emotionalWords} />
             <ClaimsSection claims={result.claims} />
             <QuestionsSection questions={result.questions} />
+            <CredibilitySection credibility={result.credibility} />
           </div>
         </div>
       </main>
