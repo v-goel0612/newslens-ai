@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import type { AnalysisResult } from "@/types/analysis";
 import { EmotionalWordsSection } from "@/components/EmotionalWordsSection";
+import { ClaimsSection } from "@/components/ClaimsSection";
 
 export default function AnalyzePage() {
   const [articleText, setArticleText] = useState("");
@@ -46,6 +47,7 @@ export default function AnalyzePage() {
           <div className="mt-8 flex flex-col gap-6">
             <SummarySection summary={result.summary} />
             <EmotionalWordsSection words={result.emotionalWords} />
+            <ClaimsSection claims={result.claims} />
           </div>
         </div>
       </main>
