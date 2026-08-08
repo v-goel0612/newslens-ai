@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 import type { AnalysisResult } from "@/types/analysis";
 import { EmotionalWordsSection } from "@/components/EmotionalWordsSection";
 import { ClaimsSection } from "@/components/ClaimsSection";
+import { QuestionsSection } from "@/components/QuestionsSection";
 
 export default function AnalyzePage() {
   const [articleText, setArticleText] = useState("");
@@ -48,6 +49,7 @@ export default function AnalyzePage() {
             <SummarySection summary={result.summary} />
             <EmotionalWordsSection words={result.emotionalWords} />
             <ClaimsSection claims={result.claims} />
+            <QuestionsSection questions={result.questions} />
           </div>
         </div>
       </main>
