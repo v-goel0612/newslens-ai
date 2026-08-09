@@ -9,6 +9,8 @@ import { ClaimsSection } from "@/components/ClaimsSection";
 import { QuestionsSection } from "@/components/QuestionsSection";
 import { CredibilitySection } from "@/components/CredibilitySection";
 import { ToneMeter } from "@/components/ToneMeter";
+import { KeywordsSection } from "@/components/KeywordsSection";
+import { TimelineSection } from "@/components/TimelineSection";
 
 export default function AnalyzePage() {
   const [articleText, setArticleText] = useState("");
@@ -54,7 +56,9 @@ export default function AnalyzePage() {
             <ClaimsSection claims={result.claims} />
             <QuestionsSection questions={result.questions} />
             <CredibilitySection credibility={result.credibility} />
-          </div>
+            <KeywordsSection keywords={result.keywords} />
+            <TimelineSection timeline={result.timeline} />
+          </div>    
         </div>
       </main>
     );
