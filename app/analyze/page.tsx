@@ -11,6 +11,7 @@ import { CredibilitySection } from "@/components/CredibilitySection";
 import { ToneMeter } from "@/components/ToneMeter";
 import { KeywordsSection } from "@/components/KeywordsSection";
 import { TimelineSection } from "@/components/TimelineSection";
+import { ChatSection } from "@/components/ChatSection";
 
 export default function AnalyzePage() {
   const [articleText, setArticleText] = useState("");
@@ -58,6 +59,7 @@ export default function AnalyzePage() {
             <CredibilitySection credibility={result.credibility} />
             <KeywordsSection keywords={result.keywords} />
             <TimelineSection timeline={result.timeline} />
+            <ChatSection chatContext={articleText} />
           </div>    
         </div>
       </main>

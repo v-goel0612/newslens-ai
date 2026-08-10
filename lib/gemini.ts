@@ -97,3 +97,58 @@ function parseAnalysisResponse(rawText: string): AnalysisResult {
     throw new Error("Failed to parse Gemini's response as valid JSON.");
   }
 }
+
+export async function chatAboutArticle(
+  chatContext: string,
+  history: { role: "user" | "assistant"; content: string }[],
+  newMessage: string
+): Promise<string> {
+  if (!GEMINI_API_KEY) {
+    throw new Error("GEMINI_API_KEY is not set. Check your .env.local file.");
+  }
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+
+  // Gemini's chat format: alternating user/model turns, each with "parts"
+  const contents = [
+    {
+      role: "user",
+      parts: [
+        {
+          text: `You are a media literacy assistant. Here is context about an article the user is reading:\n\n${chatContext}\n\nAnswer the user's follow-up questions clearly and concisely, using this context.`,
+        },
+      ],
+    },
+    ...history.map((msg) => ({
+      role: msg.role === "user" ? "user" : "model",
+      parts: [{ text: msg.content }],
+    })),
+    {
+      role: "user",
+      parts: [{ text: newMessage }],
+    },
+  ];
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": GEMINI_API_KEY,
+    },
+    body: JSON.stringify({ contents }),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`Gemini API error (${response.status}): ${errorBody}`);
+  }
+
+  const data = await response.json();
+  const rawText: string | undefined = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+  if (!rawText) {
+    throw new Error("Gemini returned an empty response.");
+  }
+
+  return rawText.trim();
+}
