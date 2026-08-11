@@ -12,6 +12,7 @@ import { ToneMeter } from "@/components/ToneMeter";
 import { KeywordsSection } from "@/components/KeywordsSection";
 import { TimelineSection } from "@/components/TimelineSection";
 import { ChatSection } from "@/components/ChatSection";
+import { ExportButton } from "@/components/ExportButton";
 
 export default function AnalyzePage() {
   const [articleText, setArticleText] = useState("");
@@ -47,9 +48,12 @@ export default function AnalyzePage() {
 
   if (result) {
     return (
-      <main className="flex flex-1 flex-col items-center gap-6 bg-background px-6 py-16 text-foreground">
+      <main className="flex flex-1 flex-col items-center bg-background px-6 py-16 text-foreground">
         <div className="w-full max-w-2xl">
-          <h1 className="text-3xl font-semibold">Analysis Complete</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-semibold">Analysis Complete</h1>
+            <ExportButton result={result} />
+          </div>
           <div className="mt-8 flex flex-col gap-6">
             <SummarySection summary={result.summary} />
             <ToneMeter score={result.toneScore} explanation={result.toneExplanation} />
@@ -60,7 +64,7 @@ export default function AnalyzePage() {
             <KeywordsSection keywords={result.keywords} />
             <TimelineSection timeline={result.timeline} />
             <ChatSection chatContext={articleText} />
-          </div>    
+          </div>
         </div>
       </main>
     );
