@@ -1,7 +1,8 @@
 "use client";
 
 import { SummarySection } from "@/components/SummarySection";
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import type { AnalysisResult } from "@/types/analysis";
 import { EmotionalWordsSection } from "@/components/EmotionalWordsSection";
@@ -14,11 +15,22 @@ import { TimelineSection } from "@/components/TimelineSection";
 import { ChatSection } from "@/components/ChatSection";
 import { ExportButton } from "@/components/ExportButton";
 
-export default function AnalyzePage() {
+const DEMO_ARTICLE = `The SHIELD Bill defines a child as anyone below 18 and seeks to impose a dedicated set of safety obligations on social media services, online gaming platforms and other digital intermediaries. It proposes to prohibit platforms from tracking, profiling, or using personalised advertising for children.
+
+Platforms would also have to take steps to prevent children from being exposed to pornography, gambling and simulated betting, violent or extremist material and drug-related content. Platforms violating the proposed law could face penalties of up to ₹10 crore. Repeated or wilful violations could result in temporary suspension or blocking of services under Section 69A of the Information Technology Act.`;
+
+function AnalyzePageContent() {
   const [articleText, setArticleText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("demo") === "true") {
+      setArticleText(DEMO_ARTICLE);
+    }
+  }, [searchParams]);
 
   async function handleAnalyze() {
     setError(null);
@@ -101,5 +113,19 @@ export default function AnalyzePage() {
         )}
       </button>
     </main>
+  );
+}
+
+export default function AnalyzePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex flex-1 items-center justify-center bg-background text-foreground">
+          Loading...
+        </div>
+      }
+    >
+      <AnalyzePageContent />
+    </Suspense>
   );
 }

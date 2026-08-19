@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Hero() {
   return (
     <section className="flex w-full flex-col items-center px-6 py-24 text-center sm:py-32">
@@ -9,12 +11,18 @@ export function Hero() {
         extracts claims, and encourages critical thinking.
       </p>
       <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-        <button className="rounded-full bg-primary px-6 py-3 font-medium text-white transition-colors hover:bg-blue-600">
+        <Link
+          href="/analyze"
+          className="rounded-full bg-primary px-6 py-3 font-medium text-white transition-colors hover:bg-blue-600"
+        >
           Analyze Article
-        </button>
-        <button className="rounded-full border border-border px-6 py-3 font-medium text-foreground transition-colors hover:bg-card">
+        </Link>
+        <Link
+          href="/analyze?demo=true"
+          className="rounded-full border border-border px-6 py-3 font-medium text-foreground transition-colors hover:bg-card"
+        >
           View Demo
-        </button>
+        </Link>
       </div>
     </section>
   );
